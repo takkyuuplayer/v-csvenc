@@ -1,12 +1,5 @@
-# v-csvenc
-
-![CI](https://github.com/takkyuuplayer/v-csvenc/workflows/CI/badge.svg)
-
-Port of Go's encoding/csv
-
-```v
 import os
-import takkyuuplayer.csvenc
+import examples.csvenc
 
 fn main() {
 	mut output := os.stdout()
@@ -14,4 +7,3 @@ fn main() {
 	buf.write(['a', 'b', 'c']) ?
 	buf.flush() ? // Output: a,b,c
 }
-```
