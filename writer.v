@@ -73,6 +73,9 @@ pub fn (mut w Writer) flush() ? {
 }
 
 fn (w &Writer) field_needs_quotes(field string) bool {
+	if w.always_quote {
+		return true
+	}
 	if field == '' {
 		return false
 	}

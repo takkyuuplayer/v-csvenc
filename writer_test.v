@@ -28,10 +28,11 @@ fn test_new_writer() ? {
 }
 
 struct WriteTestCase {
-	input     []string
-	output    string
-	use_crlf  bool
-	delimiter rune = `,`
+	input        []string
+	output       string
+	use_crlf     bool
+	delimiter    rune = `,`
+	always_quote bool
 }
 
 fn test_write() ? {
@@ -141,11 +142,21 @@ fn test_write() ? {
 			output: ',|,|\n'
 			delimiter: `|`
 		},
+		WriteTestCase{
+			input: ['a', 'a', '']
+			output: '"a","a",""\n'
+			always_quote: true
+		},
 	]
 
 	for _, tt in cases {
 		w := bytebuf.Buffer{}
-		mut writer := new_writer(writer: w, use_crlf: tt.use_crlf, delimiter: tt.delimiter) ?
+		mut writer := new_writer(
+			writer: w
+			use_crlf: tt.use_crlf
+			delimiter: tt.delimiter
+			always_quote: tt.always_quote
+		) ?
 		writer.write(tt.input) ?
 		writer.flush() ?
 		assert w.bytes().bytestr() == tt.output
