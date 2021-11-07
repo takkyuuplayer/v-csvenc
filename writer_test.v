@@ -162,3 +162,11 @@ fn test_write() ? {
 		assert w.bytes().bytestr() == tt.output
 	}
 }
+
+fn test_write_all() ? {
+	w := bytebuf.Buffer{}
+	mut writer := new_writer(writer: w) ?
+	writer.write_all([['a', 'b', 'c'], ['d', 'e', 'f']]) ?
+
+	assert w.bytes().bytestr() == 'a,b,c\nd,e,f\n'
+}

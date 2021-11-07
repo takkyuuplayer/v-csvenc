@@ -55,9 +55,17 @@ pub fn (mut w Writer) write(fields []string) ? {
 			if field.len > 0 {
 				z := field[0]
 				match z {
-					`"` { w.bw.write('""'.bytes()) ? }
-					`\r`{ if !w.use_crlf { w.bw.write('\r'.bytes()) ? } }
-					`\n`{ w.bw.write(le.bytes()) ? }
+					`"` {
+						w.bw.write('""'.bytes()) ?
+					}
+					`\r` {
+						if !w.use_crlf {
+							w.bw.write('\r'.bytes()) ?
+						}
+					}
+					`\n` {
+						w.bw.write(le.bytes()) ?
+					}
 					else {}
 				}
 				field = field[1..]
@@ -70,6 +78,13 @@ pub fn (mut w Writer) write(fields []string) ? {
 
 pub fn (mut w Writer) flush() ? {
 	w.bw.flush() ?
+}
+
+pub fn (mut w Writer) write_all(records [][]string) ? {
+	for _, record in records {
+		w.write(record) ?
+	}
+	w.flush() ?
 }
 
 fn (w &Writer) field_needs_quotes(field string) bool {
