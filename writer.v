@@ -46,55 +46,55 @@ pub fn (mut w Writer) write(fields []string) ? {
 	for n, field_ in fields {
 		mut field := field_
 		if n > 0 {
-			w.bw.write(w.delimiter.str().bytes()) ?
+			w.bw.write(w.delimiter.str().bytes())?
 		}
 		if !w.field_needs_quotes(field) {
-			_ = w.bw.write(field.bytes()) ?
+			_ = w.bw.write(field.bytes())?
 			continue
 		}
-		w.bw.write('"'.bytes()) ?
+		w.bw.write('"'.bytes())?
 		for field.len > 0 {
 			mut i := field.index_any('"\r\n')
 			if i < 0 {
 				i = field.len
 			}
-			w.bw.write(field[..i].bytes()) ?
+			w.bw.write(field[..i].bytes())?
 			field = field[i..]
 			if field.len > 0 {
 				z := field[0]
 				match z {
 					`"` {
-						w.bw.write('""'.bytes()) ?
+						w.bw.write('""'.bytes())?
 					}
 					`\r` {
 						if !w.use_crlf {
-							w.bw.write('\r'.bytes()) ?
+							w.bw.write('\r'.bytes())?
 						}
 					}
 					`\n` {
-						w.bw.write(le.bytes()) ?
+						w.bw.write(le.bytes())?
 					}
 					else {}
 				}
 				field = field[1..]
 			}
 		}
-		w.bw.write('"'.bytes()) ?
+		w.bw.write('"'.bytes())?
 	}
-	w.bw.write(le.bytes()) ?
+	w.bw.write(le.bytes())?
 }
 
 // flush writes any buffered data to the underlying io.Writer.
 pub fn (mut w Writer) flush() ? {
-	w.bw.flush() ?
+	w.bw.flush()?
 }
 
 // write_all writes multiple CSV records to w using Write and then calls flush.
 pub fn (mut w Writer) write_all(records [][]string) ? {
 	for _, record in records {
-		w.write(record) ?
+		w.write(record)?
 	}
-	w.flush() ?
+	w.flush()?
 }
 
 // field_needs_quotes reports whether our field must be enclosed in quotes.
