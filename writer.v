@@ -26,7 +26,7 @@ pub struct Config {
 // new_writer returns a new Writer that writes to c.writer.
 pub fn new_writer(c Config) ?&Writer {
 	if !valid_delim(c.delimiter) {
-		return error('invalid delimiter: $c.delimiter')
+		return error('invalid delimiter: ${c.delimiter}')
 	}
 
 	return &Writer{
