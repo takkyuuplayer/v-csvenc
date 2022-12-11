@@ -2,17 +2,17 @@ module csvenc
 
 import takkyuuplayer.bytebuf
 
-fn test_new_writer() ? {
+fn test_new_writer() ! {
 	w := bytebuf.Buffer{}
 	{
-		writer := new_writer(writer: w)?
+		writer := new_writer(writer: w)!
 
 		assert writer.delimiter == `,`
 		assert writer.use_crlf == false
 	}
 	{
 		// with config
-		writer := new_writer(writer: w, delimiter: `\t`, use_crlf: true)?
+		writer := new_writer(writer: w, delimiter: `\t`, use_crlf: true)!
 
 		assert writer.delimiter == `\t`
 		assert writer.use_crlf == true
@@ -35,7 +35,7 @@ struct WriteTestCase {
 	always_quote bool
 }
 
-fn test_write() ? {
+fn test_write() ! {
 	cases := [
 		WriteTestCase{
 			input: ['abc']
@@ -156,17 +156,17 @@ fn test_write() ? {
 			use_crlf: tt.use_crlf
 			delimiter: tt.delimiter
 			always_quote: tt.always_quote
-		)?
-		writer.write(tt.input)?
-		writer.flush()?
+		)!
+		writer.write(tt.input)!
+		writer.flush()!
 		assert w.bytes().bytestr() == tt.output
 	}
 }
 
-fn test_write_all() ? {
+fn test_write_all() ! {
 	w := bytebuf.Buffer{}
-	mut writer := new_writer(writer: w)?
-	writer.write_all([['a', 'b', 'c'], ['d', 'e', 'f']])?
+	mut writer := new_writer(writer: w)!
+	writer.write_all([['a', 'b', 'c'], ['d', 'e', 'f']])!
 
 	assert w.bytes().bytestr() == 'a,b,c\nd,e,f\n'
 }

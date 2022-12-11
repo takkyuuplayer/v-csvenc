@@ -39,5 +39,5 @@ jobs:
         run: |
           cd repo
           v install
-          v test .
+          v -prod test .
 
