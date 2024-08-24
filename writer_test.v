@@ -38,113 +38,113 @@ struct WriteTestCase {
 fn test_write() ! {
 	cases := [
 		WriteTestCase{
-			input: ['abc']
+			input:  ['abc']
 			output: 'abc\n'
 		},
 		WriteTestCase{
-			input: ['abc']
-			output: 'abc\r\n'
+			input:    ['abc']
+			output:   'abc\r\n'
 			use_crlf: true
 		},
 		WriteTestCase{
-			input: ['"abc"']
+			input:  ['"abc"']
 			output: '"""abc"""\n'
 		},
 		WriteTestCase{
-			input: ['a"b']
+			input:  ['a"b']
 			output: '"a""b"\n'
 		},
 		WriteTestCase{
-			input: [' abc']
+			input:  [' abc']
 			output: ' abc\n'
 		},
 		WriteTestCase{
-			input: ['abc,def']
+			input:  ['abc,def']
 			output: '"abc,def"\n'
 		},
 		WriteTestCase{
-			input: ['abc\ndef']
+			input:  ['abc\ndef']
 			output: '"abc\ndef"\n'
 		},
 		WriteTestCase{
-			input: ['abc\ndef']
-			output: '"abc\r\ndef"\r\n'
+			input:    ['abc\ndef']
+			output:   '"abc\r\ndef"\r\n'
 			use_crlf: true
 		},
 		WriteTestCase{
-			input: ['abc\rdef']
+			input:  ['abc\rdef']
 			output: '"abc\rdef"\n'
 		},
 		WriteTestCase{
-			input: ['abc\rdef']
-			output: '"abcdef"\r\n'
+			input:    ['abc\rdef']
+			output:   '"abcdef"\r\n'
 			use_crlf: true
 		},
 		WriteTestCase{
-			input: ['']
+			input:  ['']
 			output: '\n'
 		},
 		WriteTestCase{
-			input: ['', '']
+			input:  ['', '']
 			output: ',\n'
 		},
 		WriteTestCase{
-			input: ['', '', '']
+			input:  ['', '', '']
 			output: ',,\n'
 		},
 		WriteTestCase{
-			input: ['', '', 'a']
+			input:  ['', '', 'a']
 			output: ',,a\n'
 		},
 		WriteTestCase{
-			input: ['', 'a', '']
+			input:  ['', 'a', '']
 			output: ',a,\n'
 		},
 		WriteTestCase{
-			input: ['', 'a', 'a']
+			input:  ['', 'a', 'a']
 			output: ',a,a\n'
 		},
 		WriteTestCase{
-			input: ['a', '', '']
+			input:  ['a', '', '']
 			output: 'a,,\n'
 		},
 		WriteTestCase{
-			input: ['a', '', 'a']
+			input:  ['a', '', 'a']
 			output: 'a,,a\n'
 		},
 		WriteTestCase{
-			input: ['a', 'a', '']
+			input:  ['a', 'a', '']
 			output: 'a,a,\n'
 		},
 		WriteTestCase{
-			input: ['a', 'a', 'a']
+			input:  ['a', 'a', 'a']
 			output: 'a,a,a\n'
 		},
 		WriteTestCase{
-			input: ['\\.']
+			input:  ['\\.']
 			output: '"\\."\n'
 		},
 		WriteTestCase{
-			input: ['x09\x41\xb4\x1c', 'aktau']
+			input:  ['x09\x41\xb4\x1c', 'aktau']
 			output: 'x09\x41\xb4\x1c,aktau\n'
 		},
 		WriteTestCase{
-			input: [',x09\x41\xb4\x1c', 'aktau']
+			input:  [',x09\x41\xb4\x1c', 'aktau']
 			output: '",x09\x41\xb4\x1c",aktau\n'
 		},
 		WriteTestCase{
-			input: ['a', 'a', '']
-			output: 'a|a|\n'
+			input:     ['a', 'a', '']
+			output:    'a|a|\n'
 			delimiter: `|`
 		},
 		WriteTestCase{
-			input: [',', ',', '']
-			output: ',|,|\n'
+			input:     [',', ',', '']
+			output:    ',|,|\n'
 			delimiter: `|`
 		},
 		WriteTestCase{
-			input: ['a', 'a', '']
-			output: '"a","a",""\n'
+			input:        ['a', 'a', '']
+			output:       '"a","a",""\n'
 			always_quote: true
 		},
 	]
@@ -152,9 +152,9 @@ fn test_write() ! {
 	for _, tt in cases {
 		w := bytebuf.Buffer{}
 		mut writer := new_writer(
-			writer: w
-			use_crlf: tt.use_crlf
-			delimiter: tt.delimiter
+			writer:       w
+			use_crlf:     tt.use_crlf
+			delimiter:    tt.delimiter
 			always_quote: tt.always_quote
 		)!
 		writer.write(tt.input)!

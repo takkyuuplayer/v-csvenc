@@ -17,6 +17,7 @@ mut:
 
 // Config are options that can be given to a writer
 pub struct Config {
+pub:
 	writer       io.Writer
 	delimiter    rune = `,` // Field delimiter
 	use_crlf     bool // True to use \r\n as the line terminator
@@ -30,9 +31,9 @@ pub fn new_writer(c Config) !&Writer {
 	}
 
 	return &Writer{
-		bw: bufwriter.new(writer: c.writer)
-		delimiter: c.delimiter
-		use_crlf: c.use_crlf
+		bw:           bufwriter.new(writer: c.writer)
+		delimiter:    c.delimiter
+		use_crlf:     c.use_crlf
 		always_quote: c.always_quote
 	}
 }
@@ -111,7 +112,7 @@ fn (w &Writer) field_needs_quotes(field string) bool {
 	if field == '\\.' {
 		return true
 	}
-	if field.contains(w.delimiter.str()) || (field.index_any('"\r\n') != -1) {
+	if field.contains(w.delimiter.str()) || field.index_any('"\r\n') != -1 {
 		return true
 	}
 	return false
